@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery — NFT marketplace on BOT Chain</title>
+<link rel="icon" type="image/png" href="./logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0d0d;--panel:#1a1a1a;--panel-2:#262626;--accent:#ec4899;--accent-soft:#f472b6;--accent-mid:#db2777;--text:#fafafa;--muted:#a3a3a3;--hairline:rgba(250,250,250,.1);--hairline-strong:rgba(250,250,250,.2)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;line-height:1.5;min-height:100vh}
+a{color:inherit;text-decoration:none}
+.mono{font-family:'Courier New',monospace}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+nav{position:sticky;top:0;z-index:20;background:rgba(13,13,13,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--hairline)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;letter-spacing:-.01em}
+.logo-mark{width:22px;height:22px;background:linear-gradient(135deg,var(--accent),var(--accent-mid));border-radius:7px;transform:rotate(-8deg)}
+.nav-links{display:flex;align-items:center;gap:24px;font-size:14px;color:var(--muted)}
+.nav-links a:hover{color:var(--text)}
+.btn{font-family:'Outfit',sans-serif;font-weight:600;font-size:14px;padding:10px 18px;border-radius:10px;border:none;cursor:pointer;min-height:40px;transition:all .15s}
+.btn-primary{background:var(--accent);color:#0d0d0d}
+.btn-primary:hover{background:var(--accent-soft)}
+.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--hairline-strong)}
+.btn-ghost:hover{border-color:var(--accent)}
+select#netSel{background:var(--panel);border:1px solid var(--hairline-strong);border-radius:8px;font-family:'Courier New',monospace;font-size:12px;padding:9px;min-height:40px;color:var(--text)}
+.banner{background:linear-gradient(115deg,#3b0a1f 0%,#701a45 45%,var(--accent-mid) 100%);border-bottom:1px solid var(--hairline)}
+.banner-inner{display:grid;grid-template-columns:1.2fr 1fr;gap:36px;align-items:center;padding:52px 0}
+@media(max-width:840px){.banner-inner{grid-template-columns:1fr;padding:36px 0}}
+.banner h1{font-size:clamp(32px,4.6vw,52px);font-weight:800;letter-spacing:-.02em;line-height:1.05}
+.banner p{color:rgba(250,250,250,.85);font-size:16px;margin-top:14px;max-width:460px}
+.chips{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.chip{background:rgba(13,13,13,.35);border:1px solid rgba(250,250,250,.25);border-radius:999px;padding:7px 14px;font-family:'Courier New',monospace;font-size:12px}
+.chip b{color:#fff}
+.mint-strip{background:rgba(13,13,13,.55);border:1px solid rgba(250,250,250,.22);border-radius:16px;padding:22px}
+.mint-strip .lbl{font-family:'Courier New',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-soft);margin-bottom:10px}
+.mint-strip .row{display:flex;gap:10px}
+.mint-strip input{flex:1;background:var(--bg);border:1px solid var(--hairline-strong);border-radius:10px;color:var(--text);font-family:'Courier New',monospace;font-size:13px;padding:13px 14px;min-height:46px}
+.mint-strip input:focus{outline:2px solid var(--accent);outline-offset:0}
+.mint-strip .btn{min-height:46px;padding:0 22px}
+.mint-strip .yours{font-size:13px;color:var(--muted);margin-top:12px}
+.mint-strip .yours b{color:var(--text);font-family:'Courier New',monospace}
+.section{padding:44px 0}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:22px;gap:14px;flex-wrap:wrap}
+.section-head h2{font-size:26px;font-weight:800;letter-spacing:-.01em}
+.section-head .sub{font-size:14px;color:var(--muted)}
+.nft-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
+.nft-card{background:var(--panel);border:1px solid var(--hairline);border-radius:14px;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.nft-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(236,72,153,.18)}
+.nft-card .img{height:210px;display:flex;align-items:center;justify-content:center;font-size:64px}
+.nft-card:nth-child(4n+1) .img{background:linear-gradient(135deg,#831843,#ec4899)}
+.nft-card:nth-child(4n+2) .img{background:linear-gradient(135deg,#1e1b4b,#8b5cf6)}
+.nft-card:nth-child(4n+3) .img{background:linear-gradient(135deg,#064e3b,#10b981)}
+.nft-card:nth-child(4n+4) .img{background:linear-gradient(135deg,#78350f,#f59e0b)}
+.nft-card .info{padding:16px}
+.nft-card .info h4{font-size:15px;margin-bottom:3px}
+.nft-card .info p{font-size:12px;color:var(--muted)}
+.nft-card .info .price{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+.nft-card .price .amt{font-weight:700;font-size:16px;color:var(--accent)}
+.nft-card .price .tag{font-family:'Courier New',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border:1px solid var(--hairline-strong);border-radius:5px;padding:3px 7px}
+.grid-empty{grid-column:1/-1;border:2px dashed var(--hairline-strong);border-radius:16px;padding:44px 20px;text-align:center;color:var(--muted);font-size:15px}
+.tools{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding-bottom:20px}
+@media(max-width:880px){.tools{grid-template-columns:1fr}}
+.tool{background:var(--panel);border:1px solid var(--hairline);border-radius:14px;padding:22px}
+.tool h3{font-size:16px;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.tool h3 .pip{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.tool .field{margin-bottom:12px}
+.tool .field label{display:block;font-family:'Courier New',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.tool .field input{width:100%;background:var(--bg);border:1px solid var(--hairline);border-radius:9px;color:var(--text);font-family:'Courier New',monospace;font-size:14px;padding:11px 13px;min-height:42px}
+.tool .field input:focus{outline:2px solid var(--accent);outline-offset:0}
+.tool .btn{width:100%;margin-top:4px}
+.tool .pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+footer{border-top:1px solid var(--hairline);padding:40px 0;text-align:center;color:var(--muted);font-size:13px}
+.proof{margin-top:20px;padding:16px 18px;background:var(--panel);border:1px solid var(--hairline-strong);border-radius:14px;max-width:380px;margin-left:auto;margin-right:auto;text-align:left}
+.proof-title{font-family:'Courier New',monospace;font-size:11px;font-weight:600;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
+.proof-grid{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-family:'Courier New',monospace;font-size:12px;color:var(--muted)}
+.proof-grid .val{color:var(--accent);overflow-wrap:anywhere}
+.proof-link{display:inline-block;margin-top:10px;font-family:'Courier New',monospace;font-size:11px;color:var(--accent);border-bottom:1px solid var(--accent)}
+</style>
+</head>
+<body>
+<nav><div class="wrap nav-inner">
+<div class="logo"><div class="logo-mark"></div>Gallery</div>
+<div class="nav-links">
+<a href="#market">Market</a>
+<a href="#tools">Create</a>
+<select id="netSel"><option value="968">Testnet 968</option><option value="677">Mainnet 677</option></select>
+<button class="btn btn-primary" id="connectBtn">Connect wallet</button>
+</div>
+</div></nav>
+
+<div class="banner">
+<div class="wrap banner-inner">
+<div>
+<h1>Mint it. List it.<br>Collect what moves you.</h1>
+<p>Create NFTs and trade them on BOT Chain — low fees, fast finality, your art stays yours.</p>
+<div class="chips">
+<span class="chip">Total NFTs <b id="statTotal">—</b></span>
+<span class="chip">Listed <b id="statListed">—</b></span>
+<span class="chip">Volume <b id="statVolume">—</b></span>
+</div>
+</div>
+<div class="mint-strip" id="mint">
+<div class="lbl">Mint a new NFT</div>
+<div class="row"><input id="mintURI" placeholder="ipfs://... or https://..."><button class="btn btn-primary" id="mintBtn">Mint →</button></div>
+<div class="yours">Your NFTs: <b id="yourNFTs">—</b></div>
+</div>
+</div>
+</div>
+
+<div class="wrap">
+<div class="section" id="market">
+<div class="section-head">
+<h2>Marketplace</h2>
+<span class="sub">All listed NFTs — buy, collect, and trade.</span>
+</div>
+<div class="nft-grid" id="nftGrid"><div class="grid-empty">No NFTs listed yet — mint one in the strip above, then list it for sale.</div></div>
+</div>
+
+<div class="section" id="tools" style="border-top:1px solid var(--hairline)">
+<div class="section-head">
+<h2>Trade &amp; earn</h2>
+<span class="sub">List, buy, and set creator royalties.</span>
+</div>
+<div class="tools">
+<div class="tool">
+<h3><span class="pip"></span>List for sale</h3>
+<div class="field"><label>Token ID</label><input id="listId" type="number" placeholder="0"></div>
+<div class="field"><label>Price (BOT)</label><input id="listPrice" type="number" step="0.001" placeholder="1.000"></div>
+<button class="btn btn-primary" id="listBtn">List →</button>
+</div>
+<div class="tool">
+<h3><span class="pip"></span>Buy NFT</h3>
+<div class="field"><label>Token ID</label><input id="buyId" type="number" placeholder="0"></div>
+<button class="btn btn-primary" id="buyBtn">Buy →</button>
+</div>
+<div class="tool">
+<h3><span class="pip"></span>Creator royalty</h3>
+<div class="pair">
+<div class="field"><label>Token ID</label><input id="royaltyId" type="number" placeholder="0"></div>
+<div class="field"><label>Percent (max 10%)</label><input id="royaltyPct" type="number" placeholder="250"></div>
+</div>
+<div class="field"><label>Recipient</label><input id="royaltyRecipient" placeholder="0x..."></div>
+<button class="btn btn-ghost" id="royaltyBtn">Set royalty →</button>
+</div>
+</div>
+</div>
+</div>
+
+<footer>
+<p>Gallery — NFT marketplace on BOT Chain. Mint, list, buy, sell.</p>
+<div class="proof">
+<div class="proof-title">Proof on BOT Mainnet</div>
+<div class="proof-grid">
+<span>Chain ID</span><span class="val">677</span>
+<span>Contract</span><span class="val" id="contractAddr">—</span>
+</div>
+<a href="https://botchain.ai" target="_blank" rel="noopener" class="proof-link">BOT Chain Website ↗</a>
+</div>
+</footer>
+<script type="importmap">
+{"imports":{"ethers":"https://esm.sh/ethers@6.13.2","@reown/appkit":"https://esm.sh/@reown/appkit@1.8.21","@reown/appkit-adapter-ethers":"https://esm.sh/@reown/appkit-adapter-ethers@1.8.21"}}
+</script>
+<script type="module" src="app.js"></script>
+</body>
+</html>
