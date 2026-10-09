@@ -48,7 +48,7 @@ const modal = createAppKit({
   networks: [botMainnet, botTestnet],
   defaultNetwork: botMainnet,
   projectId: PROJECT_ID,
-  metadata: { name: 'Gallery', description: 'NFT marketplace on BOT Chain', url: 'https://gallery.botchain.io', icons: ['https://gallery.botchain.io/logo.png'] },
+  metadata: { name: 'Gallery', description: 'NFT marketplace on BOT Chain', url: location.origin, icons: [location.origin + '/logo.png'] },
   themeVariables: { '--w3m-accent': '#ec4899' },
   features: { analytics: false },
 });
