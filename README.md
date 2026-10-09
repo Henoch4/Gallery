@@ -8,7 +8,7 @@ Mint NFTs, list them, buy and sell — with creator royalties up to 10%.
 - Mainnet — chainId 677 — RPC https://rpc.botchain.ai — explorer https://scan.botchain.ai
 
 ## Deployments
-- Mainnet (677): pending — contract compiled (solc 0.8.30, OpenZeppelin 5.6.1, optimized), deploy queued.
+- Mainnet (677): **deployed** — `0xfDC1c968B086A4159499292635Ab9F87f1eb3E5B` (block 26069099, tx `0xd5dc91fca6b63972a49314fee73ac703ebd8567e5a3d81e3273fdc7f5f5f79a0`, 20 gwei, gasUsed 2005339, 2026-10-09). Frontend wired and defaults to mainnet.
 - Constructor: WBOT `0xD5452816194a3784dBa983426cCe7c122F4abd30` (payment token).
 
 ## Structure

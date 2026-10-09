@@ -21,7 +21,7 @@ const botMainnet = {
 const RPC = { 968: 'https://rpc.bohr.life', 677: 'https://rpc.botchain.ai' };
 
 // Filled after mainnet deploy — null = contract not live on that chain (honest UI)
-const CONTRACTS = { 968: { addr: null, deployBlock: null }, 677: { addr: null, deployBlock: null } };
+const CONTRACTS = { 968: { addr: null, deployBlock: null }, 677: { addr: '0xfDC1c968B086A4159499292635Ab9F87f1eb3E5B', deployBlock: 26069099 } };
 
 const ABI = [
   'function totalSupply() view returns (uint256)',
