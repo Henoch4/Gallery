@@ -41,6 +41,7 @@ const ABI = [
 const ERC20_ABI = [
   'function allowance(address owner,address spender) view returns (uint256)',
   'function approve(address spender,uint256 amount) returns (bool)',
+  'function deposit() payable',
 ];
 
 const modal = createAppKit({
@@ -369,6 +370,20 @@ async function doList() {
   } catch (e) { toast(errM(e)); }
 }
 
+async function ensureWbotFor(tokenAddr, amount) {
+  const erc20 = new ethers.Contract(tokenAddr, ERC20_ABI, signer);
+  const bal = await erc20.balanceOf(account);
+  if (bal >= amount) return true;
+  const shortfall = amount - bal;
+  const native = await signer.provider.getBalance(account);
+  const gasCost = ethers.parseEther('0.005');
+  if (native < shortfall + gasCost) { toast('Not enough WBOT — wrap BOT first (need ~' + ethers.formatEther(shortfall + gasCost).slice(0, 7) + ' more BOT).'); return false; }
+  toast('Wrapping BOT → WBOT…');
+  const tx = await erc20.deposit({ value: shortfall, ...gasOv() });
+  await tx.wait();
+  return true;
+}
+
 async function doBuy(id) {
   const c = await writeC();
   if (!c) return;
@@ -379,6 +394,7 @@ async function doBuy(id) {
     const pt = await c.paymentToken();
     const erc20 = new ethers.Contract(pt, ERC20_ABI, signer);
     const price = l.price;
+    if (!(await ensureWbotFor(pt, price))) return;
     const allow = await erc20.allowance(account, addrOf());
     if (allow < price) {
       toast('Approving WBOT for marketplace…');
