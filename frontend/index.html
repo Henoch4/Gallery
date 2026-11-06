@@ -92,7 +92,7 @@ h2 em{color:var(--acc)}
 .card:hover .buy{transform:none;opacity:1}
 .empty{column-span:all;padding:90px 20px;text-align:center;border:1px dashed var(--line);border-radius:6px;color:var(--mut);font-family:var(--serif);font-size:30px}
 /* trade */
-.trade{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.trade{display:grid;grid-auto-flow:dense;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));border:1px solid var(--line);border-radius:6px;overflow:hidden}
 .pn{padding:clamp(24px,3vw,44px);border-right:1px solid var(--line);display:flex;flex-direction:column;gap:24px;min-height:440px;transition:background .5s}
 .pn:last-child{border-right:0}.pn:hover{background:var(--card)}
 .pn .n{font-family:var(--serif);font-style:italic;font-size:110px;line-height:.8;-webkit-text-stroke:1px var(--fg);color:transparent;transition:.5s}
